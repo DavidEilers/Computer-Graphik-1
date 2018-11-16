@@ -18,16 +18,45 @@ void CGBresenhamLineRasterizer::rasterize(const CGVaryings& a,const CGVaryings& 
 
 	// TODO: modify this to bresenham algorithm
 	// naive implementation
+	bool swapxy;
+	int dx = abs(to.x-from.x);
+	int dy = abs(to.y-from.y);
+	if(dx<dy){
+		swapxy=true;
+		int buffer = from.x;
+		from.x = from.y;
+		from.y=buffer;
+		buffer = to.x;
+		to.x=to.y;
+		to.y=buffer;
+		buffer = dx;
+		dx=dy;
+		dy=buffer;
+	}else{
+		swapxy=false;
+	}
+
 	int x = from.x, y;
-	int dx = to.x-from.x;
-	int dy = to.y-from.y;
-	float m = (float)dy/(float)dx;
-	float n = (float)from.y-m*(float)from.x;
-	while (x <= to.x) {
-		y = (int)(m*x+n+0.5f);
-		fragment.coordinates.set(x,y);
+	y=from.y;
+	int d = 2*dy-dx;
+	int deltaE=2*dy;
+	int deltaNE=2*(dy-dx);
+	int xstep = (from.x<=to.x)?1:-1;
+	int ystep = (from.y<=to.y)?1:-1;
+	while (x != to.x+xstep) {
+		if(swapxy==true){
+			fragment.coordinates.set(y,x);
+		}else{
+			fragment.coordinates.set(x,y);
+		}
+		x+=xstep;
+		if(d<=0){
+			d+=deltaE;
+		}else{
+			y+=ystep;
+			d+=deltaNE;
+		}
 		m_frag_ops.push_fragment(fragment);
-		x++;
 	}
 
 	m_frag_ops.flush_fragments();
