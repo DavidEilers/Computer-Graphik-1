@@ -29,7 +29,7 @@ int main(int /*argc*/,
 {
 	srand((unsigned int)time(NULL)); // initialize seed for pseudo random number generator
 
-	Application* app = (Application*) new App_JumpingPoint(FRAME_WIDTH,FRAME_HEIGHT);
+	Application* app = (Application*) new App_LineBenchmark(FRAME_WIDTH,FRAME_HEIGHT);
 
 	if (CG1Helper::initApplication(app, FRAME_SCALE)) {
 		CG1Helper::runApplication();
@@ -42,4 +42,3 @@ int main(int /*argc*/,
 	return 0;
 }
 //---------------------------------------------------------------------------
-

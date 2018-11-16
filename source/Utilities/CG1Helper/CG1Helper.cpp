@@ -317,7 +317,7 @@ void CG1Helper::runApplication()
 	while (!exitRequested && !glfwWindowShouldClose(smWindow)) {
 		glfwPollEvents();
 		m_displayFunc();
-		nanosleep(&timeBetweenFrames, NULL);
+		//nanosleep(&timeBetweenFrames, NULL);
 #ifndef NDEBUG
 		CGLHelper::CheckGLErrors("main loop");
 #endif

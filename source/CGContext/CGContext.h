@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------------------
 
-class CGContext 
+class CGContext
 {
 public:
 	CGFrameBuffer m_frameBuffer;
@@ -63,7 +63,7 @@ public:
 		bool bresenham;
 		CGCapabilities()
 		{
-			blending = depthTest = backFaceCulling = bresenham = false;
+			blending = depthTest = backFaceCulling = bresenham = true;
 		}
 	}
 	capabilities;
@@ -96,4 +96,3 @@ private:
 };
 
 //---------------------------------------------------------------------------
-
