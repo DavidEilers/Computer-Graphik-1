@@ -34,7 +34,7 @@ App_LineBenchmark::App_LineBenchmark(int w, int h)
 		vertex[1][2]=0.0f;
 
 		// set the background color
-
+		context.capabilities.bresenham=true;
 		context.clearColor = CGVec4(0.0f, 0.0f, 0.0f, 1.0f); // TODO: change this later
 }
 //------------------------------------------------------------------------------

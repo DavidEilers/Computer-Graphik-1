@@ -63,7 +63,7 @@ public:
 		bool bresenham;
 		CGCapabilities()
 		{
-			blending = depthTest = backFaceCulling = bresenham = true;
+			blending = depthTest = backFaceCulling = bresenham = false;
 		}
 	}
 	capabilities;
