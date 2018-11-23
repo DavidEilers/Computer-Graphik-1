@@ -7,8 +7,8 @@
 // Defines, globals, etc.
 
 
-#define FRAME_WIDTH  160   // Framebuffer width.
-#define FRAME_HEIGHT 100   // Framebuffer height.
+#define FRAME_WIDTH  41   // Framebuffer width.
+#define FRAME_HEIGHT 41   // Framebuffer height.
 #define FRAME_SCALE  5     // Integer scaling factors (zoom).
 
 
@@ -29,7 +29,7 @@ int main(int /*argc*/,
 {
 	srand((unsigned int)time(NULL)); // initialize seed for pseudo random number generator
 
-	Application* app = (Application*) new App_TestBresenham(FRAME_WIDTH,FRAME_HEIGHT);
+	Application* app = (Application*) new App_TestRotatingTriangle(FRAME_WIDTH,FRAME_HEIGHT);
 
 	if (CG1Helper::initApplication(app, FRAME_SCALE)) {
 		CG1Helper::runApplication();

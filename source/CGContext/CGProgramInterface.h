@@ -35,6 +35,10 @@ struct CGFragmentData
 	}
 	void set(const CGVaryings& A, const CGVaryings& B, float ratio)
 	{
+		varyings.color=(1-ratio)*A.color+ratio*B.color;
+		varyings.normal=(1-ratio)*A.normal+ratio*B.normal;
+		varyings.texcoord=(1-ratio)*A.texcoord+ratio*B.texcoord;
+		varyings.position_es=(1-ratio)*A.position_es+ratio*B.position_es;
 		// interpolation
 		// ...
 	}
@@ -45,4 +49,3 @@ struct CGFragmentData
 		// ...
 	}
 };
-

@@ -43,11 +43,14 @@ void CGBresenhamLineRasterizer::rasterize(const CGVaryings& a,const CGVaryings& 
 	int deltaNE=2*(dy-dx);
 	int xstep = (from.x<=to.x)?1:-1;
 	int ystep = (from.y<=to.y)?1:-1;
+	float ratio=0.0;
 	while (x != to.x+xstep) {
 		if(swapxy==true){
 			fragment.coordinates.set(y,x);
+			fragment.set(b, a, 1-ratio);
 		}else{
 			fragment.coordinates.set(x,y);
+			fragment.set(a, b, ratio);
 		}
 		x+=xstep;
 		if(d<=0){
@@ -56,6 +59,7 @@ void CGBresenhamLineRasterizer::rasterize(const CGVaryings& a,const CGVaryings& 
 			y+=ystep;
 			d+=deltaNE;
 		}
+		ratio=(abs(x-from.x))/(float)dx;
 		m_frag_ops.push_fragment(fragment);
 	}
 

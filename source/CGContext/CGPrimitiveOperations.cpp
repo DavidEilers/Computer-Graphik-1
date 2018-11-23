@@ -22,6 +22,9 @@ bool CGPrimitiveOperations::backface_culling(const CGVaryings &a, const CGVaryin
 //------------------------------------------------------------------------------
 void CGPrimitiveOperations::invoke_triangle_rasterization(const CGVaryings &a, const CGVaryings &b, const CGVaryings &c)
 {
+	invoke_line_rasterization(a, b);
+	invoke_line_rasterization(b, c);
+	invoke_line_rasterization(c, a);
 	// ...
 }
 //------------------------------------------------------------------------------
