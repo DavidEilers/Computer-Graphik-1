@@ -45,6 +45,10 @@ struct CGFragmentData
 	void set(const CGVaryings& A, const CGVaryings& B, const CGVaryings& C,
 		 float alpha, float beta, float gamma)
 	{
+		varyings.color= alpha*A.color+beta*B.color+gamma*C.color;
+		varyings.normal= alpha*A.normal+beta*B.normal+gamma*C.normal;
+		varyings.texcoord= alpha*A.texcoord+beta*B.texcoord+gamma*C.texcoord;
+		varyings.position_es= alpha*A.position_es+beta*B.position_es+gamma*C.position_es;
 		// interpolation
 		// ...
 	}

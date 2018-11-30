@@ -7,7 +7,7 @@ App_TestRotatingTriangle::App_TestRotatingTriangle(int w, int h)
 	context.clearColor = CGVec4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	context.capabilities.bresenham = true;
-	context.polygonMode = CG_LINE; // TODO change this later
+	context.polygonMode = CG_FILL; // TODO change this later
 }
 //------------------------------------------------------------------------------
 void App_TestRotatingTriangle::program_step()
