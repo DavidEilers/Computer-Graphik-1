@@ -15,8 +15,12 @@ public:
 	bool isInside(const CGVec2i& p) const
 	{
 		// ...
-		return false; // TODO: change this later...
+
+		return !(
+			p.x<bottom_left.x||
+			p.x>bottom_left.x+width||
+			p.y<bottom_left.y||
+			p.y>bottom_left.y+height
+		); // TODO: change this later...
 	}
 };
-
-

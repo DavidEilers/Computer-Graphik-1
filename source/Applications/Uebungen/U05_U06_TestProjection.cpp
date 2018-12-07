@@ -9,7 +9,7 @@ void App_TestProjection::program_step()
 	context.polygonMode = (wire?CG_LINE:CG_FILL);
 
 	context.useProgram(prog);
-
+	context.capabilities.bresenham=true;
 	// calculate projection matrix and set it as a uniform in the
 	// prog object
 	// ...

@@ -5,10 +5,10 @@
 
 class App_TestViewport :public Application {
 
-	Program_passThrough prog; // TODO: change program
+	Program_testVertex prog; // TODO: change program
 	int frame_width,frame_height;
 	const 	float vertexPosition_TestTriangle[6*3]={
-		-1.0f, 0.0f, 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
+		-1.2f, 0.0f, 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
 		-1.0f,-1.0f, 0.0f,  1.0f,-1.0f, 0.0f,  1.0f, 1.0f, 0.0f};
 	const float vertexColor_TestTriangle[6*4] ={1,0,0,1, 0,0,1,1, 0,1,0,1, 1,1,1,1, 0,1,1,1, 1,0,1,1};
 public:
@@ -16,4 +16,3 @@ public:
 	void program_step();
 
 };
-

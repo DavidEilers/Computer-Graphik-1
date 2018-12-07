@@ -18,6 +18,9 @@ public:
 	virtual void vertex_shader(const CGVertexAttributes& in,
 				   CGVaryings& out) const
 	{
+
+		out.color=in.color;
+		out.position=0.5*in.position;
 		// ...
 	}
 

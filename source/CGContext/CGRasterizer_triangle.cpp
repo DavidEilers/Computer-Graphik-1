@@ -39,10 +39,10 @@ void CGTriangleRasterizer::rasterize(const CGVaryings& A,const CGVaryings& B,con
 			float nAlpha = baryzent(b,c,p);
 			float nBeta = baryzent(c, a,p);
 			float nGamma = baryzent(a,b,p);
-			if(nAlpha>=0&&nBeta>=0&&nGamma>=0){
 				float alpha = nAlpha/surfaceArea;
 				float beta = nBeta/surfaceArea;
 				float gamma = nGamma/surfaceArea;
+			if(alpha>=0&&beta>=0&&gamma>=0){
 				fragment.coordinates.set(p.x,p.y);
 				fragment.set(A,B,C,alpha,beta,gamma);
 				m_frag_ops.push_fragment(fragment);

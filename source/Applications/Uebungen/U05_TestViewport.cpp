@@ -20,5 +20,16 @@ void App_TestViewport::program_step()
 	context.useProgram(prog);
 
 	// ...
-	context.drawArrays(CG_TRIANGLES, 0, 6); // 6 vertices for 2 triangle.
+	context.viewport.width = frame_width/2;
+	context.viewport.height = frame_height/2;
+	for(int i=0;i<2;i++){
+		for(int j =0;j<2;j++ ){
+			context.viewport.bottom_left.x=i*context.viewport.width;
+			context.viewport.bottom_left.y=j*context.viewport.height;
+			context.drawArrays(CG_TRIANGLES, 0, 6);
+		}
+
+	} // 6 vertices for 2 triangle.
+
+//	context.drawArrays(CG_TRIANGLES, 0, 6);
 }

@@ -36,7 +36,8 @@ bool CGFragmentOperations::fragment_clipping(const CGFragmentData &fragment)
 {
 	//returns true if the fragment is inside the viewport
 	// ...
-	return true; // TODO: change this later...
+	return m_context.viewport.isInside(fragment.coordinates);
+	 // TODO: change this later...
 }
 //------------------------------------------------------------------------------
 bool CGFragmentOperations::z_test(const CGFragmentData &fragment)

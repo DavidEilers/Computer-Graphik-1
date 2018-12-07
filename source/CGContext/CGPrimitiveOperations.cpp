@@ -121,10 +121,18 @@ void CGPrimitiveOperations::perspective_divide_primitives()
 //------------------------------------------------------------------------------
 void CGPrimitiveOperations::viewport_transform_primitives()
 {
+	float vWidth = m_context.viewport.width;
+	float vHeight = m_context.viewport.height;
+	float winLBx= (m_context.viewport.bottom_left.x);
+	float winLBy= (m_context.viewport.bottom_left.y);
+	float xratio= vWidth/2;
+	float yratio= vHeight/2;
 	for(unsigned int i = 0 ; i< m_num_vertices; i++)
 	{
 		CGVec4& pos = m_vertex_varyings[i].position;
 		// transform position from NDC into window space
 		// ...
+		pos.x=(pos.x+1)*xratio+winLBx;
+		pos.y=(pos.y+1)*yratio+winLBy;
 	}
 }
