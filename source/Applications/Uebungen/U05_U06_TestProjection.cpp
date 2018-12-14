@@ -59,4 +59,6 @@ App_TestProjection::App_TestProjection(int w, int h)
 	}
 
 
+		float aspectRatio=(float)w/(float)h;
+		prog.uniform.projectionMatrix = CGMatrix4x4::getFrustum(-(aspectRatio)*0.1f,(aspectRatio)*0.1f,-0.1f,0.1f,0.1f,1.0f);
 }

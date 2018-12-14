@@ -7,6 +7,7 @@ public:
 	struct
 	{
 		// ...
+		CGMatrix4x4 projectionMatrix;
 	}
 	uniform;
 	Program_projectVertex()
@@ -19,7 +20,7 @@ public:
 				   CGVaryings& out) const
 	{
 		out.color=in.color;
-		out.position=(1/(-in.position.z))*in.position;
+		out.position=uniform.projectionMatrix*in.position;
 		// ...//0.5*in.position;
 	}
 

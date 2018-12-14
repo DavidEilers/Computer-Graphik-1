@@ -75,7 +75,16 @@ CGMatrix4x4 CGMatrix4x4::getRotationMatrix(float angle, float x, float y, float 
 //------------------------------------------------------------------------------
 CGMatrix4x4 CGMatrix4x4::getFrustum(float left, float right, float bottom, float top, float nearVal, float farVal)
 {
-	CGMatrix4x4 f;
+	CGMatrix4x4 f= getIdentityMatrix();
+	f.at(0,0)=(2*nearVal)/(right-left);
+	f.at(1,1)=(2*nearVal)/(top-bottom);
+	f.at(2,0)=(right+left)/(right-left);
+	f.at(2,1)=(top+bottom)/(top-bottom);
+	f.at(2,2)=-(farVal+nearVal)/(farVal-nearVal);
+	f.at(3,2)=-(2*farVal*nearVal)/(farVal-nearVal);
+	f.at(2,3)=-1;
+	f.at(3,3)=0.0;
+
 	// ...
 	return f;
 }

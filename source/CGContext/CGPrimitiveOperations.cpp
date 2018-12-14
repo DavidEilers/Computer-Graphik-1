@@ -61,7 +61,7 @@ void CGPrimitiveOperations::pushVertex(const CGVaryings& v)
 
 	// This might split our single primitive and create new ones.
 	// This is deactivated initally. Later, we will enable this:
-	//clip_primitive();
+	clip_primitive();
 
 	perspective_divide_primitives();
 	viewport_transform_primitives();
@@ -114,6 +114,11 @@ void CGPrimitiveOperations::perspective_divide_primitives()
 	for(unsigned int i = 0 ; i< m_num_vertices; i++)
 	{
 		CGVec4& pos = m_vertex_varyings[i].position;
+		pos.x/=pos.w;
+		pos.y/=pos.w;
+		pos.z/=pos.w;
+		pos.w=1/pos.w;
+
 		// transform position from clip space into NDC
 		// ...
 	}
@@ -134,5 +139,6 @@ void CGPrimitiveOperations::viewport_transform_primitives()
 		// ...
 		pos.x=(pos.x+1)*xratio+winLBx;
 		pos.y=(pos.y+1)*yratio+winLBy;
+		pos.z=(pos.z+1)/2.0;
 	}
 }
