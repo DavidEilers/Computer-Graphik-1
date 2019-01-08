@@ -17,6 +17,8 @@ public:
 
 	virtual void vertex_shader(const CGVertexAttributes& in, CGVaryings& out) const
 	{
+		out.position = uniform.projectionMatrix * uniform.modelViewMatrix *in.position;
+		out.color = in.color;
 		// ...
 	}
 

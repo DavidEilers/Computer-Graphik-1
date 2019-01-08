@@ -105,9 +105,20 @@ CGMatrix4x4 CGMatrix4x4::getPerspective(float fov_y, float aspect, float zNear, 
 //------------------------------------------------------------------------------
 CGMatrix4x4 CGMatrix4x4::getLookAt(const CGVec4& eye, const CGVec4& center, const CGVec4 up)
 {
-
+	CGVec4 f = (center-eye);
+	f/=sqrt(f.x*f.x+f.y*f.y+f.z*f.z);
+	f.w=0.0f;
+	CGVec4 s = CGVec4(f.y*up.z-up.y*f.z,f.z*up.x-up.z*f.x,f.x*up.y-up.x*f.y,0.0f);
+	s/=sqrt(s.x*s.x+s.y*s.y+s.z*s.z);
+	s.w=0.0f;
+	CGVec4 u = CGVec4(s.y*f.z-f.y*s.z,s.z*f.x-f.z*s.x,s.x*f.y-f.x*s.y,0.0f);
 	CGMatrix4x4 V(1.0f);
-	// ...
+	CGMatrix4x4 R(1.0f);
+	R.setRow(0,s);
+	R.setRow(1,u);
+	f=-1*f;
+	R.setRow(2,f);
+	V=R*CGMatrix4x4::getTranslationMatrix(-eye.x, -eye.y, -eye.z);
 	return V;
 }
 
