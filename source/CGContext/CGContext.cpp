@@ -40,6 +40,8 @@ void CGContext::clear(int bitfield)
 {
 	if(bitfield & CG_COLOR_BUFFER_BIT)
 		m_frameBuffer.colorBuffer.clear(clearColor);
+	if(bitfield & CG_DEPTH_BUFFER_BIT)
+		m_frameBuffer.depthBuffer.clear();
 
 	// ...
 }

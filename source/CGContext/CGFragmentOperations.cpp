@@ -44,11 +44,22 @@ bool CGFragmentOperations::z_test(const CGFragmentData &fragment)
 {
 	//returns true if the fragment is visible
 	// ...
-	return true; // TODO: change this later...
+	if(fragment.varyings.position.z<m_frame_buffer.depthBuffer.get(fragment.coordinates)){
+		m_frame_buffer.depthBuffer.set(fragment.coordinates,fragment.varyings.position.z);
+		return true;
+	}else{
+	return false; // TODO: change this later...
+	}
 }
 //------------------------------------------------------------------------------
 void CGFragmentOperations::fragment_blending(CGFragmentData &fragment)
 {
+	CGVec4 Cfrag =fragment.varyings.color;
+	float alpha= Cfrag.w;
+	CGVec4 CBuf = m_frame_buffer.colorBuffer.get(fragment.coordinates);
+	fragment.varyings.color = Cfrag * alpha + CBuf * (1.0f-alpha);
+	//fragment.varyings.color=CBuf;
+	//fragment.varyings.color.w=1.0;
 	// ...
 }
 //------------------------------------------------------------------------------
@@ -56,8 +67,11 @@ void CGFragmentOperations::write_to_framebuffer(const CGFragmentData &fragment)
 {
 	// Write the current fragment into the framebuffer.
 	// color into color buffer
-	m_frame_buffer.colorBuffer.set(fragment.coordinates,fragment.varyings.color);
 
+		m_frame_buffer.colorBuffer.set(fragment.coordinates,fragment.varyings.color);
+	if(m_context.capabilities.depthTest){
+			m_frame_buffer.depthBuffer.set(fragment.coordinates,fragment.varyings.position.z);
+}
 	// window space z coordinate into depth buffer
 	// ...
 }

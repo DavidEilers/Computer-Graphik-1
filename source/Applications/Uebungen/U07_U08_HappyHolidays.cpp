@@ -10,6 +10,7 @@ App_HappyHolidays::App_HappyHolidays(int w, int h)
 	// ...
 	context.capabilities.bresenham = true;
 	context.capabilities.backFaceCulling=true;
+	context.capabilities.depthTest=true;
 }
 //------------------------------------------------------------------------------
 void App_HappyHolidays::program_step()
@@ -23,7 +24,7 @@ void App_HappyHolidays::program_step()
 		context.polygonMode = (context.polygonMode == CG_FILL?CG_LINE:CG_FILL);
 
 
-	context.clear(CG_COLOR_BUFFER_BIT);
+	context.clear(CG_COLOR_BUFFER_BIT|CG_DEPTH_BUFFER_BIT);
 
 	prog.uniform.projectionMatrix = CGMatrix4x4::getFrustum(-0.062132f, 0.062132f, -0.041421f, 0.041421f, 0.1f, 50.0f);
 
@@ -61,14 +62,20 @@ void App_HappyHolidays::program_step()
 		float posX = float(i % 7) / 6.0f * 16.0f - 8.0f; // [0,6]->[-8,+8]
 		float posZ = float(i % 4) / 3.0f * 16.0f - 8.0f; // [0,3]->[-8,+8]
 		CGMatrix4x4 translationTree = CGMatrix4x4::getTranslationMatrix(posX, 0.0f, posZ);
-		int count=6;
+		int count=4;
 		for(int i=0;i<count;i++){
 			drawTree(view, translationTree*CGMatrix4x4::getRotationMatrixY((180.0f/count)*i));
 		}
 	}
+
 	snowflakes.render(context, prog.uniform.modelViewMatrix, view);
+
 	renderDeers(view);
 
+	context.capabilities.blending=true;
+	prog.uniform.modelViewMatrix=view*CGMatrix4x4::getScaleMatrix(5.0f,5.0f,5.0f);
+	drawColoredRect(0.8, 0.35, 0.9, 0.7);
+	context.capabilities.blending=false;
 	// ...
 }
 //------------------------------------------------------------------------------
@@ -133,6 +140,7 @@ void App_HappyHolidays::drawColoredRect(float r, float g, float b, float a)
 		0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
 	};
 	float colors[4 * 6];
+	a = ( (sinf( CG1Helper::getTime() ) + 1.0f )/ 2.0f );
 	for (int i = 0; i < 6; i++) {
 		colors[4 * i] = r; colors[4 * i + 1] = g; colors[4 * i + 2] = b; colors[4 * i + 3] = a;
 	}

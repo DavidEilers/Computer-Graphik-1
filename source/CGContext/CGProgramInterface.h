@@ -39,6 +39,7 @@ struct CGFragmentData
 		varyings.normal=(1-ratio)*A.normal+ratio*B.normal;
 		varyings.texcoord=(1-ratio)*A.texcoord+ratio*B.texcoord;
 		varyings.position_es=(1-ratio)*A.position_es+ratio*B.position_es;
+		varyings.position=(1-ratio)*A.position+ratio*B.position;
 		// interpolation
 		// ...
 	}
@@ -49,6 +50,7 @@ struct CGFragmentData
 		varyings.normal= alpha*A.normal+beta*B.normal+gamma*C.normal;
 		varyings.texcoord= alpha*A.texcoord+beta*B.texcoord+gamma*C.texcoord;
 		varyings.position_es= alpha*A.position_es+beta*B.position_es+gamma*C.position_es;
+		varyings.position=alpha*A.position+beta*B.position+gamma*C.position;
 		// interpolation
 		// ...
 	}

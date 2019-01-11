@@ -11,6 +11,7 @@ bool CGFrameBuffer::allocate(int width, int height)
 	bool retval = colorBuffer.reserve(width,height);
 	// also reserve a depth buffer
 	// ...
+	depthBuffer.reserve(width,height);
 	return retval;
 }
 //------------------------------------------------------------------------------
@@ -73,7 +74,7 @@ CGVec4 CGFrameBuffer::CGBuffer4UB::get(const CGVec2i &p ) const
 	CGVec4 rgba;
 	// ...
 	for(int i=0;i<4;i++){
-		rgba[i]=pBufferData[(p.x+p.y*width)*4+i];
+		rgba[i]=pBufferData[(p.x+p.y*width)*4+i]/255.0f;
 	}
 	return rgba;
 }
@@ -124,22 +125,31 @@ bool CGFrameBuffer::CGBuffer1f::reserve(int width, int height)
 	this->width = width;
 	this->height = height;
 	// ...
+	pBufferData = (float *) malloc(sizeof(float)*width*height);
+	if(pBufferData==NULL){
+		return false;
+	}
+	clear();
 	return true;
 }
 //------------------------------------------------------------------------------
 float CGFrameBuffer::CGBuffer1f::get(const CGVec2i &p) const
 {
 	// ...
-	return 0.0f; // TODO: change this
+	return pBufferData[ p.y*width+p.x ] ; // TODO: change this
 }
 //------------------------------------------------------------------------------
 void CGFrameBuffer::CGBuffer1f::set(const CGVec2i &p, const float z)
 {
+	pBufferData[p.y*width+p.x]=z;
 	// ...
 }
 //------------------------------------------------------------------------------
 void CGFrameBuffer::CGBuffer1f::clear()
 {
+	for(int i =0;i<width*height;i++){
+		pBufferData[i]=1.0f;
+	}
 	// ...
 }
 //------------------------------------------------------------------------------
