@@ -109,6 +109,7 @@ build/source/Applications/Uebungen/U09_Lighting.o build/dep/source/Applications/
  /usr/include/c++/8/bits/algorithmfwd.h \
  /usr/include/c++/8/bits/stl_heap.h /usr/include/c++/8/bits/stl_tempbuf.h \
  /usr/include/c++/8/bits/uniform_int_dist.h /usr/include/c++/8/limits \
+ source/ShaderPrograms/Program_phong.h \
  source/ShaderPrograms/Program_modelViewProjection.h \
  source/Utilities/CG1Helper/CG1Helper.h \
  dependencies/glad/include/glad/glad.h /usr/include/inttypes.h \

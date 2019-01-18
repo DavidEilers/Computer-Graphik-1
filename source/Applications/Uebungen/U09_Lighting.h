@@ -4,6 +4,7 @@
 #include "Utilities/Deer.h"
 
 #include "ShaderPrograms/Program_perVertexLighting.h"
+#include "ShaderPrograms/Program_phong.h"
 #include "ShaderPrograms/Program_modelViewProjection.h"
 
 
@@ -11,7 +12,7 @@
 
 class App_Lighting :public Application
 {
-	Program_perVertexLighting prog_lit;
+	Program_phong prog_lit;
 	Program_modelViewProjection prog_unlit;
 	CGQuadric sphere1;
 	CGQuadric sphere2;
@@ -26,5 +27,3 @@ public:
 
 	void renderQuadric(const CGQuadric &quadric);
 };
-
-

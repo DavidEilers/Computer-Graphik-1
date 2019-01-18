@@ -181,6 +181,7 @@ build/source/Applications/CG1Main.o build/dep/source/Applications/CG1Main.d : so
  /usr/include/c++/8/bits/algorithmfwd.h \
  /usr/include/c++/8/bits/stl_heap.h /usr/include/c++/8/bits/stl_tempbuf.h \
  /usr/include/c++/8/bits/uniform_int_dist.h /usr/include/c++/8/limits \
+ source/ShaderPrograms/Program_phong.h \
  source/Applications/Uebungen/U10_Texturing.h \
  source/Applications/Project/Project_Chess.h \
  source/Applications/Project/CGChess.h /usr/include/c++/8/random \
