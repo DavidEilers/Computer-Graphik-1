@@ -85,29 +85,42 @@ public:
 	{
 		CGVec4 ambi(0.0f), diff(0.0f), spec(0.0f);
 
-		ambi = CGVec4(0.5f); // TODO: change this!
+		ambi= uniform.light.ambient*uniform.material.ambient; // TODO: change this!
 
 		// Transform from Object Space into Eye Space.
 		CGVec4 vPos = uniform.modelViewMatrix * in.position;
-		// CGVec4 vNrm = ...
+		CGVec4 vNrm = uniform.normalMatrix * in.normal;
+		vNrm = CGMath::normalize(vNrm);
 		// L is vector direction from current point (vPos) to the light source (uniforms.lightPosition[0])
-		// CGVec4 L = ...
+		CGVec4 L = uniform.light.position_es-vPos;
+		L = CGMath::normalize(L);
 		// calculate dot product of nrm and L
-		// float NdotL = ...
+		float NdotL = CGMath::dot(vNrm,L);
 
-		// diffuse
-		// diff = ...
-		// E is direction from current point (vPos) to eye position
-		//CGVec4 E = ...
-		// H is halfway vector between L and E
-		//CGVec4 H = ...
-		// specular
-		//spec = ...
+		if(NdotL>0.0f){
+			// diffuse
+			diff = uniform.material.diffuse*uniform.light.diffuse*NdotL;
+			// E is direction from current point (vPos) to eye position
+			CGVec4 E = (-1)*vPos ;
+			E.w=0.0f;
+			E= CGMath::normalize(E);
+			// H is halfway vector between L and E
+			CGVec4 H = L+E;
+			H=CGMath::normalize(H);
+			float NdotH = CGMath::dot(vNrm,H);
+			// specular
+			NdotH = std::max(NdotH,0.0f);
+			spec = uniform.material.specular*uniform.light.specular*std::pow(NdotH,uniform.material.shininess);
+	}
 
 		// sum up the final output color
 		out.color = ambi + diff + spec;
 		// Explicitly set alpha of the color
 		out.color.w = uniform.material.diffuse.w;
+		out.color = CGMath::clamp(out.color,
+			CGVec4(0.0f,0.0f,0.0f,0.0f),
+			CGVec4(1.0f,1.0f,1.0f,1.0f)
+		);
 		// clamp color values to range [0,1]
 		//out.color = ...
 
