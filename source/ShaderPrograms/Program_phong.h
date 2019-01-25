@@ -27,10 +27,10 @@ public:
 
 			MaterialData()
 			{
-				ambient  = CGVec4(0.1f, 0.1f, 0.1f, 1.0f);
-				diffuse  = CGVec4(0.7f, 0.7f, 0.7f, 1.0f);
-				specular = CGVec4(0.3f, 0.3f, 0.3f, 1.0f);
-				shininess = 8.0f;
+				ambient  = CGVec4(0.0f, 0.0f, 0.0f, 1.0f);
+				diffuse  = CGVec4(0.0f, 0.0f, 0.0f, 1.0f);
+				specular = CGVec4(0.0f, 0.0f, 0.0f, 1.0f);
+				shininess = 1.0f;
 			}
 		};
 
@@ -93,6 +93,9 @@ public:
 		out.normal= CGMath::normalize(uniform.normalMatrix*in.normal);
 		out.color=in.color;
 		out.position_es=uniform.modelViewMatrix*in.position;
+		if(NULL!=uniform.texture){
+			out.texcoord = in.texcoord;
+		}
 		//out.material=in.material
 	}
 
@@ -101,7 +104,7 @@ public:
 	{
 		CGVec4 ambi(0.0f), diff(0.0f), spec(0.0f);
 
-		ambi= uniform.light.ambient*uniform.material.ambient;
+		ambi= uniform.material.ambient*uniform.light.ambient;
 
 		// Transform from Object Space into Eye Space.
 		CGVec4 fPos = in.position;
@@ -137,6 +140,11 @@ public:
 			CGVec4(0.0f,0.0f,0.0f,0.0f),
 			CGVec4(1.0f,1.0f,1.0f,1.0f)
 		);
+
+		//out = in.color;
+		if(NULL !=uniform.texture){
+			out *= uniform.texture->sample(in.texcoord);
+		}
 		// clamp color values to range [0,1]
 		//out.color = ...
 

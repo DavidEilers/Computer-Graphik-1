@@ -14,12 +14,12 @@ App_Lighting::App_Lighting(int w, int h):Application (w,h)
 
 	// set LIGHT properties (uniforms)
 	prog_lit.uniform.light.ambient = CGVec4(0.2f,0.2f,0.2f,1.0f);
-	prog_lit.uniform.light.diffuse = CGVec4(1.0f);
-	prog_lit.uniform.light.specular = CGVec4(1.0f);
+	prog_lit.uniform.light.diffuse = CGVec4(0.0f, 0.0f, 1.0f);
+	prog_lit.uniform.light.specular = CGVec4(1.0f,0.0f,0.0f);
 
 	// set MATERIAL properties (uniforms)
-	prog_lit.uniform.material.ambient = CGVec4(0.0f,1.0f,0.0f,1.0);
-	prog_lit.uniform.material.diffuse = CGVec4(0.0f,1.0f,0.0f,1.0);
+	prog_lit.uniform.material.ambient = CGVec4(1.0f,1.0f,1.0f,1.0);
+	prog_lit.uniform.material.diffuse = CGVec4(1.0f,1.0f,1.0f,1.0);
 	prog_lit.uniform.material.specular = CGVec4(1.0f);
 	prog_lit.uniform.material.shininess = 32.0f;
 
@@ -30,7 +30,7 @@ App_Lighting::App_Lighting(int w, int h):Application (w,h)
 
 
 	sphere1.setStandardColor(CGVec4(0.0f, 1.0f, 0.0f, 1.0f));
-	sphere1.createIcoSphere(3);
+	sphere1.createIcoSphere(1);
 	sphere2.setStandardColor(CGVec4(1.0f));
 	sphere2.createIcoSphere(2);
 

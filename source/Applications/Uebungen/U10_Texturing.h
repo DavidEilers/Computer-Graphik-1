@@ -5,13 +5,14 @@
 #include "Utilities/Deer.h"
 #include "ShaderPrograms/Program_perVertexLighting.h"
 #include "ShaderPrograms/Program_modelViewProjection.h"
+#include "ShaderPrograms/Program_phong.h"
 
 
 
 
 class App_Texturing :public Application
 {
-	Program_perVertexLighting prog_lit_tex;
+	Program_phong prog_lit_tex;
 	Program_modelViewProjection prog_unlit;
 	CGQuadric sphere;
 	CGTexture2D test_texture;

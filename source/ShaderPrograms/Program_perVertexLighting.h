@@ -123,7 +123,9 @@ public:
 		);
 		// clamp color values to range [0,1]
 		//out.color = ...
-
+		if(NULL!=uniform.texture){
+			out.texcoord = in.texcoord;
+		}
 		// Transform from Eye Space into Clip Space.
 		out.position = uniform.projectionMatrix * vPos;
 
@@ -134,7 +136,11 @@ public:
 	void fragment_shader(const CGVaryings& in,
 								 CGVec4& out) const
 	{
+
 		out = in.color;
+		if(NULL !=uniform.texture){
+			out *= uniform.texture->sample(in.texcoord);
+		}
 		// ...
 	}
 };

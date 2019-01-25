@@ -10,16 +10,17 @@ App_Texturing::App_Texturing(int w, int h):Application (w,h)
 	context.capabilities.depthTest= true;
 	context.capabilities.backFaceCulling = true;
 	context.polygonMode = CG_FILL;
+	context.capabilities.bresenham=true;
 	context.useProgram(prog_lit_tex);
 	// set LIGHT properties (uniforms) with
-	prog_lit_tex.uniform.light.ambient = CGVec4(0.1f);
-	prog_lit_tex.uniform.light.diffuse = CGVec4(0.8f);
-	prog_lit_tex.uniform.light.specular = CGVec4(0.8f);
+	prog_lit_tex.uniform.light.ambient = CGVec4(0.9f);
+	prog_lit_tex.uniform.light.diffuse = CGVec4(0.7f);
+	prog_lit_tex.uniform.light.specular = CGVec4(0.7f);
 
-	prog_lit_tex.uniform.material.ambient = CGVec4(1.0f);
-	prog_lit_tex.uniform.material.diffuse = CGVec4(1.0f);
-	prog_lit_tex.uniform.material.specular = CGVec4(1.0f);
-	prog_lit_tex.uniform.material.shininess = 64.0f;
+	prog_lit_tex.uniform.material.ambient = CGVec4(0.3f);
+	prog_lit_tex.uniform.material.diffuse = CGVec4(0.5f);
+	prog_lit_tex.uniform.material.specular = CGVec4(0.3f,0.3f,0.3f);
+	prog_lit_tex.uniform.material.shininess = 2.0f;
 
 
 	// set projection matrix
@@ -42,7 +43,7 @@ App_Texturing::App_Texturing(int w, int h):Application (w,h)
 
 	// set the texture parameters
 	test_texture.filterMode = CG_NEAREST;
-	test_texture.wrapMode = CG_CLAMP; // TODO: try different wrap mode
+	test_texture.wrapMode = CG_REPEAT; // TODO: try different wrap mode
 
 	deer_texture.filterMode = CG_NEAREST;
 	deer_texture.wrapMode = CG_CLAMP;

@@ -110,6 +110,7 @@ build/source/Applications/Uebungen/U10_Texturing.o build/dep/source/Applications
  /usr/include/c++/8/bits/stl_heap.h /usr/include/c++/8/bits/stl_tempbuf.h \
  /usr/include/c++/8/bits/uniform_int_dist.h /usr/include/c++/8/limits \
  source/ShaderPrograms/Program_modelViewProjection.h \
+ source/ShaderPrograms/Program_phong.h \
  source/Utilities/CG1Helper/CG1Helper.h \
  dependencies/glad/include/glad/glad.h /usr/include/inttypes.h \
  /usr/lib/gcc/x86_64-linux-gnu/8/include/stdint.h /usr/include/stdint.h \
