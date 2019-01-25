@@ -62,7 +62,7 @@ void App_Lighting::program_step()
 	float anim = 0.5f * CG1Helper::getTime();
 	CGVec4 lightPos(cosf(anim) * 1.4f, 1.4f, sinf(anim) * 1.4f, 1);
 
-	prog_lit.uniform.light.position_es = modelview * lightPos;
+	prog_lit.uniform.light.position_es = view* lightPos;
 
 	if (showDeer) {
 		deer.render(context);
