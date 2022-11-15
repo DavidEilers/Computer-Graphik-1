@@ -90,7 +90,7 @@ public:
 	void useProgram(const CGProgram& prog);
 
 	/// Reads all data from the current color buffer into the provided memory
-	void readPixels(unsigned char* data) const;
+	void readPixels(unsigned char** data) const;
 
 private:
 };

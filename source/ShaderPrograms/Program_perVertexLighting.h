@@ -6,75 +6,7 @@
 class Program_perVertexLighting : public CGProgram
 {
 public:
-	struct
-	{
-		// define a the reflection properties of a material
-		// parameters contain the necessary parameters for classical
-		// blinn-phong reflection model
-		struct MaterialData
-		{
-			CGVec4 ambient;
-			CGVec4 diffuse;
-			CGVec4 specular;
-			CGVec4 emissive;
-			float shininess;
 
-			MaterialData()
-			{
-				ambient  = CGVec4(0.1f, 0.1f, 0.1f, 1.0f);
-				diffuse  = CGVec4(0.7f, 0.7f, 0.7f, 1.0f);
-				specular = CGVec4(0.3f, 0.3f, 0.3f, 1.0f);
-				shininess = 8.0f;
-			}
-		};
-
-		// define a the properties of a light source
-		// parameters contain the necessary parameters for classical
-		// blinn-phong reflection model
-		struct LightData
-		{
-			CGVec4 ambient;
-			CGVec4 diffuse;
-			CGVec4 specular;
-			CGVec4 position_es;
-			CGVec4 spot_direction;
-			float spot_cutoff;
-			float spot_exponent;
-
-			LightData()
-			{
-				spot_direction = CGVec4(0.0f,0.0f,-1.0f,0.0f);
-				spot_exponent = 0.0f;
-				spot_cutoff = 180.0f;
-				position_es = CGVec4(0.0f,0.0f,0.0f,1.0f);
-			}
-		};
-
-		// the actual uniforms
-		MaterialData material;
-		LightData light;
-		CGMatrix4x4 projectionMatrix;
-		CGMatrix4x4 modelViewMatrix;
-		CGMatrix4x4 normalMatrix;
-		CGTexture2D* texture;
-
-		// helper to calculate the normalMatrix from the modelViewMatrix
-		// call this whenever after you set a new modelViewMatrix!
-		void updateNormalMatrix()
-		{
-			normalMatrix = modelViewMatrix;
-			for(unsigned int i = 0; i< 3;i++){
-				normalMatrix.at(3,i) = 0.0f;
-				normalMatrix.at(i,3) = 0.0f;
-			}
-			normalMatrix.at(3,3)=1.0f;
-
-			normalMatrix.invert();
-			normalMatrix.transpose();
-		}
-
-	}
-	uniform;
 	Program_perVertexLighting()
 	{
 		uniform.texture = NULL;
@@ -85,42 +17,66 @@ public:
 	{
 		CGVec4 ambi(0.0f), diff(0.0f), spec(0.0f);
 
-		ambi= uniform.light.ambient*uniform.material.ambient; // TODO: change this!
-
-		// Transform from Object Space into Eye Space.
 		CGVec4 vPos = uniform.modelViewMatrix * in.position;
 		CGVec4 vNrm = uniform.normalMatrix * in.normal;
 		vNrm = CGMath::normalize(vNrm);
-		// L is vector direction from current point (vPos) to the light source (uniforms.lightPosition[0])
-		CGVec4 L = uniform.light.position_es-vPos;
-		L = CGMath::normalize(L);
-		// calculate dot product of nrm and L
-		float NdotL = CGMath::dot(vNrm,L);
+		// E is direction from current point (vPos) to eye position
+		CGVec4 E = (-1)*vPos ;
+		E.w=0.0f;
+		E= CGMath::normalize(E);
 
-		if(NdotL>0.0f){
-			// diffuse
-			diff = uniform.material.diffuse*uniform.light.diffuse*NdotL;
-			// E is direction from current point (vPos) to eye position
-			CGVec4 E = (-1)*vPos ;
-			E.w=0.0f;
-			E= CGMath::normalize(E);
-			// H is halfway vector between L and E
-			CGVec4 H = L+E;
-			H=CGMath::normalize(H);
-			float NdotH = CGMath::dot(vNrm,H);
-			// specular
-			NdotH = std::max(NdotH,0.0f);
-			spec = uniform.material.specular*uniform.light.specular*std::pow(NdotH,uniform.material.shininess);
+		out.color=CGVec4(0.0f,0.0f,0.0f,0.0f);
+
+		for(int i=0;i<uniform.lightCount;i++){
+			ambi= uniform.light[i].ambient*uniform.material.ambient;
+			// Transform from Object Space into Eye Space.
+			// L is vector direction from current point (vPos) to the light source (uniforms.lightPosition[0])
+			CGVec4 L;
+			if(uniform.light[i].position_es.w!=0.0f){
+				L = uniform.light[i].position_es-vPos;
+			}else{
+				L = uniform.light[i].position_es;
+			}
+
+			L = CGMath::normalize(L);
+			// calculate dot product of nrm and L
+			float NdotL = CGMath::dot(vNrm,L);
+			float spotFactor = 1.0f;
+
+
+				if(uniform.light[i].spot_cutoff!=180.0f){
+					CGVec4 S = CGMath::normalize(uniform.light[i].spot_direction);
+					spotFactor = std::max(CGMath::dot(S,(-1)*L),0.0f);
+					if(spotFactor < cosf((uniform.light[i].spot_cutoff)*(3.14159265f/180.0f)) ){
+						spotFactor = 0.0f;
+					}else{
+						spotFactor = std::pow(spotFactor,uniform.light[i].spot_exponent);
+					}
+				}
+
+			if(NdotL>0.0f){
+
+				// diffuse
+				diff = uniform.material.diffuse*uniform.light[i].diffuse*NdotL;
+				// H is halfway vector between L and E
+				CGVec4 H = L+E;
+				H=CGMath::normalize(H);
+				float NdotH = CGMath::dot(vNrm,H);
+				// specular
+				NdotH = std::max(NdotH,0.0f);
+				spec = uniform.material.specular*uniform.light[i].specular*std::pow(NdotH,uniform.material.shininess);
+			}
+
+			// sum up the final output color
+			out.color += ambi + spotFactor*( diff + spec);
+			// Explicitly set alpha of the color
+			out.color.w = uniform.material.diffuse.w;
+			out.color = CGMath::clamp(out.color,
+				CGVec4(0.0f,0.0f,0.0f,0.0f),
+				CGVec4(1.0f,1.0f,1.0f,1.0f)
+			);
 	}
-
-		// sum up the final output color
-		out.color = ambi + diff + spec;
-		// Explicitly set alpha of the color
-		out.color.w = uniform.material.diffuse.w;
-		out.color = CGMath::clamp(out.color,
-			CGVec4(0.0f,0.0f,0.0f,0.0f),
-			CGVec4(1.0f,1.0f,1.0f,1.0f)
-		);
+		out.color*=in.color;
 		// clamp color values to range [0,1]
 		//out.color = ...
 		if(NULL!=uniform.texture){

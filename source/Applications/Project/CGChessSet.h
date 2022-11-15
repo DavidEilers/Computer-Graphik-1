@@ -167,7 +167,7 @@ public:
 
 	/**
 	 * @brief is_checkmate tests if the board is in a check mate state
-	 * for the player color, meaning, that this player has lost 
+	 * for the player color, meaning, that this player has lost
 	 * @return
 	 */
 	bool is_checkmate(const CGChessColor color) const;

@@ -92,13 +92,22 @@ CGMatrix4x4 CGMatrix4x4::getFrustum(float left, float right, float bottom, float
 CGMatrix4x4 CGMatrix4x4::getOrtho(float left, float right, float bottom, float top, float nearVal, float farVal)
 {
 	CGMatrix4x4 o;
-	// ...
+	o.at(0,0)=2.0f/(right-left);
+	o.at(1,1)=2.0f/(top-bottom);
+	o.at(2,2)=-(2.0f/(farVal-nearVal));
+	o.at(3,0)=-((right+left)/(right-left));
+	o.at(3,1)=-((top+bottom)/(top-bottom));
+	o.at(3,2)=-((farVal+nearVal)/(farVal-nearVal));
+	o.at(3,3)=1.0f;
 	return o;
 }
 //------------------------------------------------------------------------------
 CGMatrix4x4 CGMatrix4x4::getPerspective(float fov_y, float aspect, float zNear, float zFar)
 {
 	CGMatrix4x4 P;
+	float t = zNear*tan((fov_y/2.0f)*((float)M_PI/180.0f));
+	float r= t*aspect;
+	P = getFrustum(-(r/2.0f),r/(2.0f),-(t/2.0f),t/2.0f,zNear,zFar );
 	// ...
 	return P;
 }

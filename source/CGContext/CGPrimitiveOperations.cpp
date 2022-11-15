@@ -2,6 +2,7 @@
 #include "CGPrimClipper.h"
 #include "CGContext.h"
 #include "CGRasterizer.h"
+#include "CGMath.h"
 //------------------------------------------------------------------------------
 void CGPrimitiveOperations::invoke_line_rasterization(const CGVaryings &a, const CGVaryings &b)
 {
@@ -17,7 +18,14 @@ bool CGPrimitiveOperations::backface_culling(const CGVaryings &a, const CGVaryin
 {
 	// return true if the triangle is visible, false otherwise
 	// ...
-	return true; // TODO: change this later
+	if(m_context.capabilities.backFaceCulling==true){
+		if(CGMath::dot(CGMath::cross(b.position-a.position,c.position-b.position),CGVec4(0.0f,0.0f,1.0f,0.0f))>0.0f){
+			return true; // TODO: change this later
+		}
+		return false;
+	}else{
+		return true;
+	}
 }
 //------------------------------------------------------------------------------
 void CGPrimitiveOperations::invoke_triangle_rasterization(const CGVaryings &a, const CGVaryings &b, const CGVaryings &c)
@@ -28,7 +36,8 @@ void CGPrimitiveOperations::invoke_triangle_rasterization(const CGVaryings &a, c
 		invoke_line_rasterization(c, a);
 
 	}else{
-			m_triangle_rasterizer.rasterize(a, b, c);
+			if(backface_culling(a,b,c)==true)
+				m_triangle_rasterizer.rasterize(a, b, c);
 	}
 }
 //------------------------------------------------------------------------------

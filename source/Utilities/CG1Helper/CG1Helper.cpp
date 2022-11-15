@@ -449,6 +449,10 @@ void CG1Helper::m_keyboardFunc (GLFWwindow *win, int key, int , int action, int 
 		key = tolower(key);
 	}
 
+	if(action == GLFW_PRESS){
+		pressedKeys[key] = true;
+	}
+
 	if (action == GLFW_RELEASE) {
 		pressedKeys[key] = false;
 		releasedKeys[key] = true;
@@ -463,7 +467,6 @@ void CG1Helper::m_keyboardFunc (GLFWwindow *win, int key, int , int action, int 
 				break;
 			}
 		}
-		pressedKeys[key] = true;
 	}
 }
 

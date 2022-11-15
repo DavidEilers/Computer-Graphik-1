@@ -61,7 +61,24 @@ void CGContext::useProgram(const CGProgram& prog)
 }
 
 //------------------------------------------------------------------------------
-void CGContext::readPixels(unsigned char *data) const
+void CGContext::readPixels(unsigned char **data) const
 {
+	int width = m_frameBuffer.getWidth();
+	int height = m_frameBuffer.getHeight();
+	unsigned char * buffer = m_frameBuffer.colorBuffer.getDataPointer();
+	*data = (unsigned char *) malloc(sizeof(unsigned char)*4*width*height );
+	//memcpy(data, buffer, sizeof(unsigned char)*4*width*height);
+/*	for(int i=0;i<width*height*4;i++){
+		(*data)[i]=buffer[i];
+	}*/
+//	printf("Width: %d\n Height:%d\n",width,height);
+	for(int y=0;y<height;y++){
+		for(int x=0;x<width;x++){
+			int invY=height-y-1;
+			int invX=width-x-1;
+			memcpy(&((*data)[(y*width+x)*4]),&(buffer[(width*(invY)+invX-1)*4]),sizeof(unsigned char)*4);
+			//(*data)[(y*width+x)*4+3]=0.0f;
+		}
+	}
 	// ...
 }

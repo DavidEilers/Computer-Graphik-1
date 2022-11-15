@@ -139,7 +139,7 @@ typedef enum
 	TGA_GRAY
 } TGAFormat;
 
-// ----------------------------- TGA writer ------------------------------ 
+// ----------------------------- TGA writer ------------------------------
 
 static void tga_write_pixel (FILE *f, const unsigned char *data, unsigned char bytes, int swap)
 {
@@ -386,6 +386,7 @@ write_tga(FILE *f, TGAFormat format, int w, int h, const unsigned char *data, in
 	write_u16le((cg_u16_t)w,f);
 	write_u16le((cg_u16_t)h,f);
 	write_u8(depth*8,f);
+
 	if (depth > 3) {
 		image_desc |= 0x8; /* alpha channel bit depth */
 	}
@@ -403,13 +404,14 @@ write_tga(FILE *f, TGAFormat format, int w, int h, const unsigned char *data, in
 		}
 	}
 
+
 	if (ferror(f))
 		return -1;
 
 	return 0;
 }
 
-extern int 
+extern int
 cgImageWriteTGA(const char *filename, int w, int h, const unsigned char *data, int rle)
 {
 	FILE *f;
@@ -426,7 +428,7 @@ cgImageWriteTGA(const char *filename, int w, int h, const unsigned char *data, i
 	return res;
 }
 
-// ----------------------------- TGA loader ------------------------------ 
+// ----------------------------- TGA loader ------------------------------
 
 static void tga_read_pixel(unsigned char *ptr, FILE *f, unsigned char bytes)
 {
@@ -714,4 +716,3 @@ extern unsigned char *cgImageLoad(const char *filename, int *width, int *height)
 	fprintf(stderr,"cgImageLoad: unknown type '%s'\n",ext);
 	return NULL;
 }
-

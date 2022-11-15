@@ -7,11 +7,11 @@
 // Defines, globals, etc.
 
 
-#define FRAME_WIDTH  480   // Framebuffer width.
-#define FRAME_HEIGHT 320   // Framebuffer height.
+#define FRAME_WIDTH  400   // Framebuffer width.
+#define FRAME_HEIGHT 300   // Framebuffer height.
 #define FRAME_SCALE  3     // Integer scaling factors (zoom).
 
-
+/*
 #include "Uebungen/U01_JumpingPoint.h"
 #include "Uebungen/U02_LineBenchmark.h"
 #include "Uebungen/U02_U03_TestBresenham.h"
@@ -21,7 +21,7 @@
 #include "Uebungen/U07_U08_HappyHolidays.h"
 #include "Uebungen/U08_AwesomeTriangle.h"
 #include "Uebungen/U09_Lighting.h"
-#include "Uebungen/U10_Texturing.h"
+#include "Uebungen/U10_Texturing.h"*/
 #include "Project/Project_Chess.h"
 
 int main(int /*argc*/,
@@ -29,7 +29,7 @@ int main(int /*argc*/,
 {
 	srand((unsigned int)time(NULL)); // initialize seed for pseudo random number generator
 
-	Application* app = (Application*) new App_Texturing(FRAME_WIDTH,FRAME_HEIGHT);
+	Application* app = (Application*) new Project_Chess(FRAME_WIDTH,FRAME_HEIGHT);
 
 	if (CG1Helper::initApplication(app, FRAME_SCALE)) {
 		CG1Helper::runApplication();

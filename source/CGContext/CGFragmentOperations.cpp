@@ -59,7 +59,7 @@ void CGFragmentOperations::fragment_blending(CGFragmentData &fragment)
 	CGVec4 CBuf = m_frame_buffer.colorBuffer.get(fragment.coordinates);
 	fragment.varyings.color = Cfrag * alpha + CBuf * (1.0f-alpha);
 	//fragment.varyings.color=CBuf;
-	//fragment.varyings.color.w=1.0;
+	fragment.varyings.color.w=1.0;
 	// ...
 }
 //------------------------------------------------------------------------------
